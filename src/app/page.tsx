@@ -79,13 +79,13 @@ export default function Home() {
     >
     
       <div className="md:w-1/2 h-full flex flex-col items-center justify-center">
-        <h1 className="text-3xl font-bold mb-4 text-center">
+        <h1 className="text-3xl font-semibold mb-4 text-center px-8">
           Real Estate ML Housing Price Predictor
         </h1>
-        <p className="text-lg leading-relaxed text-center">
-          This project uses a <strong>Machine Learning</strong> model to estimate
-          home prices based on various features. Enter your home details on the
-          right side to get an instant prediction!
+        <p className="text-lg leading-relaxed text-center text-gray-500 px-8">
+          This project applies a Random Forest machine learning model to estimate 
+          home prices based on features such as square footage, number of bedrooms, and other 
+          factors. Enter your home details on the right to receive an approximate price.
         </p>
       </div>
 
