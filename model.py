@@ -24,7 +24,7 @@ df = df[(df['price'] >= lower_bound) & (df['price'] <= upper_bound)]
 
 print(f"Dataset shape after removing outliers in price: {df.shape}\n")
 
-# removed non numerical values for features
+
 feature_columns = [
     'bedrooms',
     'bathrooms',
@@ -62,7 +62,7 @@ grid_search = GridSearchCV(
     estimator=rf,
     param_grid=param_grid,
     scoring='neg_mean_squared_error',  
-    cv=3,                              # 
+    cv=3,                               
     n_jobs=-1                          
 )
 

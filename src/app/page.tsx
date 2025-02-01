@@ -69,188 +69,65 @@ export default function Home() {
   };
 
   return (
-    <div
-      className="
-        flex flex-col md:flex-row
-        items-center justify-center
-        min-h-screen
-        px-16 py-12
-      "
-    >
-    
-      <div className="md:w-1/2 h-full flex flex-col items-center justify-center">
-        <h1 className="text-3xl font-semibold mb-4 text-center px-8">
-          Real Estate ML Housing Price Predictor
-        </h1>
-        <p className="text-lg leading-relaxed text-center text-gray-500 px-8">
-          This project applies a Random Forest machine learning model to estimate 
-          home prices based on features such as square footage, number of bedrooms, and other 
-          factors. Enter your home details on the right to receive an approximate price.
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 font-inter p-6">
+      <div className="max-w-6xl mx-auto lg:flex lg:gap-12">
+        <div className="lg:w-1/2 mb-12 lg:mb-5 xl:p-10" >
+          <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+            Real Estate Price Predictor
+          </h1>
+          <p className="text-lg text-gray-600 mb-8">
+            Leverage machine learning powered by a Random Forest model to estimate property values 
+            through key structural features and market indicators. 
+          </p>
+          <div className="bg-white rounded-xl p-6 shadow-sm">
+            {predictedPrice !== null && (
+              <div className="bg-emerald-50 rounded-lg p-6 text-center border border-emerald-100">
+                <p className="text-sm text-emerald-600 mb-2 font-medium">ESTIMATED VALUE</p>
+                <div className="text-3xl font-bold text-emerald-700">
+                  ${predictedPrice.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                </div>
+              </div>
+            )}
+            {errorMsg && (
+              <div className="bg-red-50 rounded-lg p-4 text-center border border-red-100 mt-4">
+                <p className="text-red-600 text-sm">{errorMsg}</p>
+              </div>
+            )}
+          </div>
+        </div>
+        {/*grid grid-cols-1 md*/}
+        <div className="lg:w-1/2">
+          <form 
+            onSubmit={handleSubmit}
+            className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {Object.entries(formData).map(([key, value]) => (
+                <div key={key} className="space-y-1">
+                  <label className="text-sm font-medium text-gray-700 capitalize">
+                    {key.replace(/_/g, ' ')}:
+                  </label>
+                  <input
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none text-gray-700"
+                    type="number"
+                    name={key}
+                    value={value}
+                    onChange={handleChange}
+                    step={key === 'bathrooms' ? 0.5 : 1}
+                    min={0}
+                  />
+                </div>
+              ))}
+            </div>
 
-   
-      <div className="md:w-1/2 h-full flex flex-col items-center justify-center mt-10 md:mt-0">
-        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 w-full max-w-lg">
-        
-          <div>
-            <label className="block font-medium mb-1 text-gray-500">Bedrooms:</label>
-            <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-transparent text-black text-xl focus:outline-none"
-              type="number"
-              name="bedrooms"
-              value={formData.bedrooms}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium mb-1 text-gray-500">Bathrooms:</label>
-            <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-transparent text-black text-xl focus:outline-none"
-              type="number"
-              step="0.5"
-              name="bathrooms"
-              value={formData.bathrooms}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium mb-1 text-gray-500">Sqft Living:</label>
-            <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-transparent text-black text-xl focus:outline-none"
-              type="number"
-              name="sqft_living"
-              value={formData.sqft_living}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium mb-1 text-gray-500">Sqft Lot:</label>
-            <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-transparent text-black text-xl focus:outline-none"
-              type="number"
-              name="sqft_lot"
-              value={formData.sqft_lot}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium mb-1 text-gray-500">Floors:</label>
-            <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-transparent text-black text-xl focus:outline-none"
-              type="number"
-              step="0.5"
-              name="floors"
-              value={formData.floors}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium mb-1 text-gray-500">Waterfront (0 or 1):</label>
-            <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-transparent text-black text-xl focus:outline-none"
-              type="number"
-              name="waterfront"
-              value={formData.waterfront}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium mb-1 text-gray-500">View (0-4):</label>
-            <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-transparent text-black text-xl focus:outline-none"
-              type="number"
-              name="view"
-              value={formData.view}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium mb-1 text-gray-500">Condition (1-5):</label>
-            <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-transparent text-black text-xl focus:outline-none"
-              type="number"
-              name="condition"
-              value={formData.condition}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium mb-1 text-gray-500">Sqft Above:</label>
-            <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-transparent text-black text-xl focus:outline-none"
-              type="number"
-              name="sqft_above"
-              value={formData.sqft_above}
-              onChange={handleChange}
-            />
-          </div>
- 
-          <div>
-            <label className="block font-medium mb-1 text-gray-500">Sqft Basement:</label>
-            <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-transparent text-black text-xl focus:outline-none"
-              type="number"
-              name="sqft_basement"
-              value={formData.sqft_basement}
-              onChange={handleChange}
-            />
-          </div>
-
-          {/* className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-transparent text-black text-xl focus:outline-none"
-              type="number"
-              name="yr_built" */}
-          <div>
-            <label className="block font-medium mb-1 text-gray-500">Year Built:</label>
-            <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-transparent text-black text-xl focus:outline-none"
-              type="number"
-              name="yr_built"
-              value={formData.yr_built}
-              onChange={handleChange}
-            />
-          </div>
- 
-          <div>
-            <label className="block font-medium mb-1 text-gray-500">Year Renovated:</label>
-            <input
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-transparent text-black text-xl focus:outline-none"
-              type="number"
-              name="yr_renovated"
-              value={formData.yr_renovated}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="col-span-2 flex justify-center mt-4">
             <button
               type="submit"
-              className="px-10 py-2.5 text-white text-md font-medium bg-black rounded-full hover:bg-gray-800"
+              className="w-full mt-8 bg-gradient-to-r from-blue-600 to-blue-500 text-white py-4 rounded-lg font-medium hover:from-blue-700 hover:to-blue-600 transition-all"
             >
-              Predict
+              Calculate Price
             </button>
-          </div>
-        </form>
-
-        {errorMsg && (
-          <p className="text-red-600 mt-4">{errorMsg}</p>
-        )}
-
-        {predictedPrice !== null && (
-          <div className="bg-gray-100 rounded-md p-4 mt-4 w-full max-w-lg text-center">
-            <h2 className="text-3xl font-medium">
-              Predicted Price: ${predictedPrice.toFixed(2)}
-            </h2>
-          </div>
-        )}
+          </form>
+        </div>
       </div>
     </div>
   );
