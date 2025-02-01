@@ -3,7 +3,10 @@
 A machine learning-powered web application for estimating property values using Random Forest regression.
 
 ## Demo Video
-Download the [demo video](demo\realestateml_demo.mp4) to view the project walkthrough.
+<video width="640" height="360" controls>
+  <source src="demo/realestateml_demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ## Key Features
 - Property price prediction based on 12 architectural features
